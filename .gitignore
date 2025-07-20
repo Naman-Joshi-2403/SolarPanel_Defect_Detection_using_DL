@@ -1,0 +1,19 @@
+# Ignore virtual environment folders
+env/
+venv/
+.venv/
+
+# Ignore common build/cache folders
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Ignore OS specific files
+.DS_Store
+Thumbs.db
+
+# If you store processed images in a folder named processed_images_padded directly under Solar Panel, ignore it.
+# processed_images_padded/
+
+# If the 'Code' subfolder contains an 'env' that needs ignoring
+Code/env/
