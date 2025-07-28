@@ -4,6 +4,18 @@ import pandas as pd
 import numpy as np
 from PIL import Image
 from tensorflow.keras.models import load_model
+from config import Config_elements
+import os 
+from pandas import DataFrame
+
+config_items = Config_elements()
+
+
+def update_backend():
+    updated_df = st.session_state['update_ongoing_maintainance']
+    print(updated_df)
+    updated_df.to_csv(config_items.ongoing_maintainance_path, index=False)
+
 
 st.set_page_config(layout="wide")
 
@@ -15,7 +27,8 @@ with st.sidebar:
         "Main Menu",
         options=["Fault Detection", "Maintainance Status", "Monitoring"],
         menu_icon="cast",
-        icons=['search', 'tools', 'bar-chart']
+        icons=['search', 'tools', 'bar-chart'],
+        default_index=1
     )
 
 
@@ -41,9 +54,21 @@ if selected == "Fault Detection":
 
 
 if selected == "Maintainance Status":
-    pass
-
-
+    data_entry = pd.read_csv(config_items.ongoing_maintainance_path)
+    
+    edited_df = st.data_editor(
+        data_entry,
+        column_config={
+            "Close Status": st.column_config.CheckboxColumn(
+                "Close Status",
+                help="Toggle if status is closed."
+            )
+        },
+        hide_index=True,
+        key="update_ongoing_maintainance",
+        on_change=update_backend
+    )
+    
 if selected == "Monitoring":
     pass
 

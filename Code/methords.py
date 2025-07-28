@@ -1,7 +1,11 @@
 import pandas as pd 
 import os
 from PIL import Image
-from config import input_folder_path, img_tager_size, background_color_padding, preprocess_image_path, image_extension
+from config import Config_elements
+
+
+
+config_items = Config_elements
 
 def data_collection(folder_path, output_folder_path):
     try:
