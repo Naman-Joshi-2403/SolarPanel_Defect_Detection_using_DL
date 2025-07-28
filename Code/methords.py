@@ -35,5 +35,3 @@ def data_collection(folder_path, output_folder_path):
 
     except Exception as e:
         print(f"Error Occured while pre processiing the images. Error: {e}")
-
-data_collection(input_folder_path, preprocess_image_path)
