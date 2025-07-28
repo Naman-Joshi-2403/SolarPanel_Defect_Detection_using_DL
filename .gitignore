@@ -17,3 +17,5 @@ Thumbs.db
 
 # If the 'Code' subfolder contains an 'env' that needs ignoring
 Code/env/
+Faulty_solar_panel
+doc.txt
