@@ -66,9 +66,12 @@ if selected == "Maintainance Status":
         },
         hide_index=True,
         key="update_ongoing_maintainance",
-        on_change=update_backend
     )
     
+    edited_df.to_csv(config_items.ongoing_maintainance_path, index=False)
+
+
+
 if selected == "Monitoring":
     pass
 

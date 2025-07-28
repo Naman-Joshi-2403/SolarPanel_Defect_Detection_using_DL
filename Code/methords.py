@@ -3,8 +3,6 @@ import os
 from PIL import Image
 from config import Config_elements
 
-
-
 config_items = Config_elements
 
 def data_collection(folder_path, output_folder_path):
