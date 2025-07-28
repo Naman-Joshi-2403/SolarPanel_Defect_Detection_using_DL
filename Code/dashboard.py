@@ -42,6 +42,8 @@ if selected == "Fault Detection":
 
 if selected == "Maintainance Status":
     pass
+
+
 if selected == "Monitoring":
     pass
 
