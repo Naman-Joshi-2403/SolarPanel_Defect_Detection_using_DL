@@ -1,12 +1,9 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 import pandas as pd
-import numpy as np
 from PIL import Image
 from tensorflow.keras.models import load_model
 from config import Config_elements
-import os 
-from pandas import DataFrame
 
 config_items = Config_elements()
 
@@ -22,7 +19,7 @@ with st.sidebar:
         options=["Fault Detection", "Maintainance Status", "Monitoring"],
         menu_icon="cast",
         icons=['search', 'tools', 'bar-chart'],
-        default_index=1
+        default_index=2
     )
 
 st.title("SolarGuard 🌞")
@@ -74,7 +71,39 @@ if selected == "Maintainance Status":
         st.success("Changes saved successfully!")
 
 if selected == "Monitoring":
-    pass
+    monitoring_type = option_menu(
+        "Main Menu",
+        options=["Fault Type Distribution", "Open/Close Cases", "Customer Issue Status"],
+        menu_icon="cast",
+        icons=['exclamation-triangle', 'check-circle', 'people'],
+        default_index=2,
+        orientation='horizontal'
+    )
+
+    df = pd.read_csv(config_items.ongoing_maintainance_path)
+    
+    if monitoring_type == "Fault Type Distribution":
+        st.header("Fault Type Distribution", divider="red")
+        st.bar_chart(df["Fault"].value_counts())
+
+    if monitoring_type == "Open/Close Cases":
+        st.header("Open vs Closed Cases", divider='red')
+        st.bar_chart(df["Close Status"].value_counts())
+
+    if monitoring_type == "Customer Issue Status":
+        st.header("Customer Issue Status (Open/Closed)", divider='red')
+        pivot = pd.crosstab(df["Name"], df["Close Status"])
+        st.bar_chart(pivot)
+
+        pivot_df = pd.crosstab([df["Name"], df["Fault"]], df["Close Status"])
+
+        st.header("Customer Issue Status and Fault Type (Open/Closed)", divider='red')
+        st.dataframe(pivot_df)
+
+    
+    
+
+
 
 
 
