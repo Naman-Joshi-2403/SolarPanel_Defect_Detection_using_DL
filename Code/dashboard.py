@@ -11,12 +11,6 @@ from pandas import DataFrame
 config_items = Config_elements()
 
 
-def update_backend():
-    updated_df = st.session_state['update_ongoing_maintainance']
-    print(updated_df)
-    updated_df.to_csv(config_items.ongoing_maintainance_path, index=False)
-
-
 st.set_page_config(layout="wide")
 
 # Load trained AI model 
@@ -30,7 +24,6 @@ with st.sidebar:
         icons=['search', 'tools', 'bar-chart'],
         default_index=1
     )
-
 
 st.title("SolarGuard 🌞")
 
@@ -54,11 +47,17 @@ if selected == "Fault Detection":
 
 
 if selected == "Maintainance Status":
+    st.header("Maintainance Status 🛠️", divider="blue")
+
     data_entry = pd.read_csv(config_items.ongoing_maintainance_path)
+    open_entry = data_entry[data_entry["Close Status"] == False].copy()
     
     edited_df = st.data_editor(
-        data_entry,
+        open_entry,
         column_config={
+            "Name": st.column_config.TextColumn("Name", disabled=True),
+            "Customer ID": st.column_config.TextColumn("Customer ID", disabled=True),
+            "Fault": st.column_config.TextColumn("Fault", disabled=True),
             "Close Status": st.column_config.CheckboxColumn(
                 "Close Status",
                 help="Toggle if status is closed."
@@ -67,10 +66,12 @@ if selected == "Maintainance Status":
         hide_index=True,
         key="update_ongoing_maintainance",
     )
-    
-    edited_df.to_csv(config_items.ongoing_maintainance_path, index=False)
 
-
+    if st.button("Save Updates",type='primary'):
+        for idx, row in edited_df.iterrows():
+            data_entry.at[idx, "Close Status"] = row["Close Status"]
+        data_entry.to_csv(config_items.ongoing_maintainance_path, index=False)
+        st.success("Changes saved successfully!")
 
 if selected == "Monitoring":
     pass

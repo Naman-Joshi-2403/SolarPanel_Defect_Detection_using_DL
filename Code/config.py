@@ -8,5 +8,4 @@ class Config_elements():
     background_color_padding = (0,0,0)
     image_extension = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff')
 
-    ongoing_maintainance_path = os.path.abspath(r'.\Static\ongoing_maintainance.csv')
-    maintainance_dump_path = os.path.abspath(r'.\Static\maintainance_dump.csv')
+    ongoing_maintainance_path = os.path.abspath(r'.\Static\DB_csv\ongoing_maintainance.csv')
