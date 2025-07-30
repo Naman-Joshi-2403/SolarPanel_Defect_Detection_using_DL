@@ -1,6 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 import pandas as pd
+import numpy as np
 from PIL import Image
 from tensorflow.keras.models import load_model
 from config import Config_elements
@@ -42,7 +43,6 @@ if selected == "Fault Detection":
 
     st.button("Submit", type="primary", use_container_width=True)
 
-
 if selected == "Maintainance Status":
     st.header("Maintainance Status 🛠️", divider="blue")
 
@@ -71,34 +71,70 @@ if selected == "Maintainance Status":
         st.success("Changes saved successfully!")
 
 if selected == "Monitoring":
+    df = pd.read_csv(config_items.ongoing_maintainance_path)
+    df['Close Status'] = np.where(df['Close Status'] == False, 'Open', 'Close')
     monitoring_type = option_menu(
-        "Main Menu",
-        options=["Fault Type Distribution", "Open/Close Cases", "Customer Issue Status"],
+        "Monitoring Control Panel",
+        options=["Customer Issue Status", "Fault Type Distribution"],
         menu_icon="cast",
-        icons=['exclamation-triangle', 'check-circle', 'people'],
-        default_index=2,
+        icons=[ 'people', 'exclamation-triangle'],
+        default_index=0,
         orientation='horizontal'
     )
 
-    df = pd.read_csv(config_items.ongoing_maintainance_path)
+    with st.container():
+        metrix_columns = st.columns([1,2,2,2,2,1], vertical_alignment='center')
+        with metrix_columns[2]:
+                st.metric(
+                    label="Open Cases",
+                    value=int(len(df[df["Close Status"] == "Open"])),
+                    delta=int(len(df[df["Close Status"] == "Open"])),
+                    delta_color='inverse',
+                    border=True
+                )
+        with metrix_columns[3]:
+                st.metric(
+                    label="Close Cases",
+                    value=int(len(df[df["Close Status"] == "Close"])),
+                    delta=int(len(df[df["Close Status"] == "Close"])),
+                    border=True
+                )
+
     
     if monitoring_type == "Fault Type Distribution":
-        st.header("Fault Type Distribution", divider="red")
-        st.bar_chart(df["Fault"].value_counts())
-
-    if monitoring_type == "Open/Close Cases":
-        st.header("Open vs Closed Cases", divider='red')
-        st.bar_chart(df["Close Status"].value_counts())
+        with st.container(border=True):
+            pivot = pd.crosstab(df["Name"], df["Close Status"])
+            with st.container():
+                col1, col2 = st.columns([4, 1])
+                with col1:
+                    st.header("Fault Type Distribution", divider="red")
+                with col2:
+                    st.download_button(
+                        data=df["Fault"].value_counts().to_csv(),
+                        file_name="fault_type_distribution.csv",
+                        type="secondary",
+                        label="Download CSV",
+                        icon="⬇️"
+                    )
+            st.bar_chart(df["Fault"].value_counts())
 
     if monitoring_type == "Customer Issue Status":
-        st.header("Customer Issue Status (Open/Closed)", divider='red')
-        pivot = pd.crosstab(df["Name"], df["Close Status"])
-        st.bar_chart(pivot)
-
-        pivot_df = pd.crosstab([df["Name"], df["Fault"]], df["Close Status"])
-
-        st.header("Customer Issue Status and Fault Type (Open/Closed)", divider='red')
-        st.dataframe(pivot_df)
+        with st.container(border=True):
+            pivot = pd.crosstab(df["Name"], df["Close Status"])
+            with st.container():
+                col1, col2 = st.columns([4, 1])
+                with col1:
+                    st.header("Customer Issue Status (Open/Closed)", divider='red')
+                with col2:
+                    st.write("") 
+                    st.download_button(
+                        data=pivot.to_csv(),
+                        file_name="customer_issue_status.csv",
+                        type="secondary",
+                        label="Download CSV",
+                        icon="⬇️"
+                    )
+            st.bar_chart(pivot)
 
     
     
