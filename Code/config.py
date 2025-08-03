@@ -7,5 +7,6 @@ class Config_elements():
     img_tager_size = (256, 256)
     background_color_padding = (0,0,0)
     image_extension = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff')
+    class_names = ["Dusty", "Electrical-damage", "Bird-drop", "Clean", "Snow-Covered", "Other"]
 
     ongoing_maintainance_path = os.path.abspath(r'.\Static\DB_csv\ongoing_maintainance.csv')

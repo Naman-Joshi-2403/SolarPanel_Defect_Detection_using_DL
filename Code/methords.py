@@ -1,6 +1,6 @@
-import pandas as pd 
 import os
 from PIL import Image
+import numpy as np 
 from config import Config_elements
 
 config_items = Config_elements
@@ -37,3 +37,11 @@ def data_collection(folder_path, output_folder_path):
 
     except Exception as e:
         print(f"Error Occured while pre processiing the images. Error: {e}")
+
+def detect_defect(image):
+    class_names = config_items.class_names
+    img = Image.open(image).convert('RGB')
+    img = img.resize(config_items.img_tager_size)
+    img_array = np.array(img) / 255.0
+    img_array = np.expand_dims(img_array, axis=0)
+    pass

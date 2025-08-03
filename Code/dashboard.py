@@ -5,6 +5,7 @@ import numpy as np
 from PIL import Image
 from tensorflow.keras.models import load_model
 from config import Config_elements
+from methords import detect_defect
 
 config_items = Config_elements()
 
@@ -12,7 +13,7 @@ config_items = Config_elements()
 st.set_page_config(layout="wide")
 
 # Load trained AI model 
-# model = load_model(r"C:\Users\naman\OneDrive\Desktop\Guvi_Projects\Solar Panel\solar_panel_analyzer.h5")
+model = load_model(r"../solar_panel_analyzer.keras")
 
 with st.sidebar:
     selected = option_menu(
@@ -31,7 +32,8 @@ if selected == "Fault Detection":
     image_input = st.file_uploader(
             "Upload Solar Panel Image",
             accept_multiple_files=False,
-            type=['jpg', 'jpeg', 'png']
+            type=['jpg', 'jpeg', 'png'],
+            on_change=detect_defect
         )
 
     col1,  col2 = st.columns(2)
