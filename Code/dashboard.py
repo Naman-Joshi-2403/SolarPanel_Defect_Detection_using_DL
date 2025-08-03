@@ -137,10 +137,3 @@ if selected == "Monitoring":
             st.bar_chart(pivot)
 
     
-    
-
-
-
-
-
-
