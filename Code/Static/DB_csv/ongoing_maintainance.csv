@@ -1,8 +1,8 @@
 Customer ID,Name,Fault,Close Status
 9,Naman Joshi,Dusty,True
 1,Kartik,Electrical-damage,True
-2,Gaurav,Bird-drop,False
-3,Sourabh,Clean,False
+2,Gaurav,Bird-drop,True
+3,Sourabh,Clean,True
 4,Sagar,Snow-Covered,False
 5,Kishan,Electrical-damage,False
 6,Neel,Electrical-damage,False

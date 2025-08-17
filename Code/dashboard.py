@@ -5,15 +5,15 @@ import numpy as np
 from PIL import Image
 from tensorflow.keras.models import load_model
 from config import Config_elements
-from methords import detect_defect
+from methords import detect_defect, process_img
+
 
 config_items = Config_elements()
 
-
+# Page config
 st.set_page_config(layout="wide")
 
 # Load trained AI model 
-model = load_model(r"../solar_panel_analyzer.keras")
 
 with st.sidebar:
     selected = option_menu(
@@ -21,19 +21,21 @@ with st.sidebar:
         options=["Fault Detection", "Maintainance Status", "Monitoring"],
         menu_icon="cast",
         icons=['search', 'tools', 'bar-chart'],
-        default_index=2
+        default_index=0
     )
 
 st.title("SolarGuard 🌞")
 
+model = load_model(r"../solar_panel_analyzer.keras")
+
 if selected == "Fault Detection":
+    img_array = None
     st.header("Upload Infomation", divider="red")
 
     image_input = st.file_uploader(
             "Upload Solar Panel Image",
             accept_multiple_files=False,
             type=['jpg', 'jpeg', 'png'],
-            on_change=detect_defect
         )
 
     col1,  col2 = st.columns(2)
@@ -43,7 +45,20 @@ if selected == "Fault Detection":
     with col2:
         customer_id = st.number_input("Enter Your Customer Id", min_value=1, max_value=999, value=None)
 
-    st.button("Submit", type="primary", use_container_width=True)
+    if st.button("Submit", type="primary", use_container_width=True):
+        if image_input is not None:
+            image_input = Image.open(image_input).convert("RGB")
+            img = process_img(image_input)
+            img_array = np.array(img) / 255.0
+            img_array = np.expand_dims(img_array, axis=0)
+            prediction = model.predict(img_array)
+            st.write(prediction)
+            predicted_index = np.argmax(prediction, axis=1)[0]
+            st.write(predicted_index)
+            st.success(f"the defect type is : {config_items.class_names[predicted_index]}")
+        else:
+            st.error("Please upload a solar panel image!")
+
 
 if selected == "Maintainance Status":
     st.header("Maintainance Status 🛠️", divider="blue")
@@ -138,4 +153,3 @@ if selected == "Monitoring":
                     )
             st.bar_chart(pivot)
 
-    
