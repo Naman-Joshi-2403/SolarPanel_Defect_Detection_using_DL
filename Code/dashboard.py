@@ -26,7 +26,10 @@ with st.sidebar:
 
 st.title("SolarGuard 🌞")
 
-model = load_model(r"../solar_panel_analyzer.keras")
+# model = load_model(r"../solar_panel_analyzer.keras")
+
+model = load_model(r"../solar_panel_custom_model.keras")
+
 
 if selected == "Fault Detection":
     img_array = None
@@ -58,7 +61,6 @@ if selected == "Fault Detection":
             st.success(f"the defect type is : {config_items.class_names[predicted_index]}")
         else:
             st.error("Please upload a solar panel image!")
-
 
 if selected == "Maintainance Status":
     st.header("Maintainance Status 🛠️", divider="blue")
@@ -117,7 +119,6 @@ if selected == "Monitoring":
                     border=True
                 )
 
-    
     if monitoring_type == "Fault Type Distribution":
         with st.container(border=True):
             pivot = pd.crosstab(df["Name"], df["Close Status"])
