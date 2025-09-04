@@ -28,7 +28,7 @@ st.title("SolarGuard 🌞")
 
 # model = load_model(r"solar_panel_analyzer.keras")
 
-model = load_model(r"solar_panel_custom_model.keras")
+model = load_model(r"./solar_panel_custom_model.keras")
 
 
 if selected == "Fault Detection":
