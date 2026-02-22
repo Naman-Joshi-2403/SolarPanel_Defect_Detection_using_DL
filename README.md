@@ -102,8 +102,8 @@ Layer: Image Dataset + Maintenance CSV
 ### 1️⃣ Clone the Repository
 
 ``` bash
-git clone <your-repo-url>
-cd <your-repo-folder>
+git clone https://github.com/Naman-Joshi-2403/SolarPanel_Defect_Detection_using_DL.git
+cd SolarPanel_Defect_Detection_using_DL
 ```
 
 ### 2️⃣ Create Virtual Environment (Recommended)
@@ -118,12 +118,6 @@ Windows:
 
 ``` bash
 env\Scripts\activate
-```
-
-Mac/Linux:
-
-``` bash
-source env/bin/activate
 ```
 
 ### 3️⃣ Install Dependencies
