@@ -9,3 +9,4 @@ class Config_elements():
     image_extension = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff')
     class_names = ["Dusty", "Electrical-damage", "Bird-drop", "Clean", "Snow-Covered", "Other"]
     ongoing_maintainance_path = os.path.abspath(r'.\Static\DB_csv\ongoing_maintainance.csv')
+    

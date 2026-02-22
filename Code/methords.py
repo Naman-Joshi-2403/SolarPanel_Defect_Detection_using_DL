@@ -8,7 +8,6 @@ config_items = Config_elements
 
 def process_img(img_file):
     current_dimension = img_file.size
-
     ratio = min(config_items.img_tager_size[0] / current_dimension[0], config_items.img_tager_size[1] / current_dimension[1])
     new_dimension = (int(current_dimension[0] * ratio), int(current_dimension[1] * ratio))
     resize_image = img_file.resize(size=new_dimension, resample=Image.LANCZOS)
@@ -21,7 +20,6 @@ def process_img(img_file):
     y_coordinate = (config_items.img_tager_size[1] - new_dimension[1]) // 2 
 
     padded_image.paste(im=resize_image, box=(x_coordinate, y_coordinate))
-    
     return padded_image
 
 def data_collection(folder_path, output_folder_path):

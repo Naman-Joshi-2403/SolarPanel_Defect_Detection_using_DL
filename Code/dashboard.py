@@ -13,10 +13,12 @@ config_items = Config_elements()
 # Page config
 st.set_page_config(layout="wide")
 
-# Load trained AI model 
 
+model = load_model(r"./solar_panel_custom_model.keras")
+
+# Nav Bar 
 with st.sidebar:
-    selected = option_menu(
+    selected = option_menu( 
         "Main Menu",
         options=["Fault Detection", "Maintainance Status", "Monitoring"],
         menu_icon="cast",
@@ -26,21 +28,16 @@ with st.sidebar:
 
 st.title("SolarGuard 🌞")
 
-# model = load_model(r"solar_panel_analyzer.keras")
-
-model = load_model(r"./solar_panel_custom_model.keras")
-
-
 if selected == "Fault Detection":
-    img_array = None
-    st.header("Upload Infomation", divider="red")
+    img_array = None  
+    st.header("Upload Infomation", divider="red")   
 
     image_input = st.file_uploader(
             "Upload Solar Panel Image",
-            accept_multiple_files=False,
+            accept_multiple_files=False, 
             type=['jpg', 'jpeg', 'png'],
         )
-
+    
     col1,  col2 = st.columns(2)
 
     with col1:
@@ -49,20 +46,20 @@ if selected == "Fault Detection":
         customer_id = st.number_input("Enter Your Customer Id", min_value=1, max_value=999, value=None)
 
     if st.button("Submit", type="primary", use_container_width=True):
-        if image_input is not None:
+        if image_input is not None: 
             image_input = Image.open(image_input).convert("RGB")
             img = process_img(image_input)
             img_array = np.array(img) / 255.0
             img_array = np.expand_dims(img_array, axis=0)
             prediction = model.predict(img_array)
-            st.write(prediction)
+            st.write(prediction)        
             predicted_index = np.argmax(prediction, axis=1)[0]
             st.write(predicted_index)
             st.success(f"the defect type is : {config_items.class_names[predicted_index]}")
         else:
             st.error("Please upload a solar panel image!")
 
-if selected == "Maintainance Status":
+if selected == "Maintainance Status": 
     st.header("Maintainance Status 🛠️", divider="blue")
 
     data_entry = pd.read_csv(config_items.ongoing_maintainance_path)
