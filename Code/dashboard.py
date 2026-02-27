@@ -10,13 +10,11 @@ from methords import detect_defect, process_img
 
 config_items = Config_elements()
 
-# Page config
 st.set_page_config(layout="wide")
 
 
-model = load_model(r"./solar_panel_custom_model.keras")
+model = load_model(r"Code/solar_panel_analyzer.keras")
 
-# Nav Bar 
 with st.sidebar:
     selected = option_menu( 
         "Main Menu",
