@@ -3,7 +3,8 @@ Customer ID,Name,Fault,Close Status
 1,Kartik,Electrical-damage,True
 2,Gaurav,Bird-drop,True
 3,Sourabh,Clean,True
-4,Sagar,Snow-Covered,False
+4,Sagar,Snow-Covered,True
 5,Kishan,Electrical-damage,False
 6,Neel,Electrical-damage,False
 9,Naman Joshi,Electrical-damage,False
+56,Lalit Sharma,Bird-drop,False

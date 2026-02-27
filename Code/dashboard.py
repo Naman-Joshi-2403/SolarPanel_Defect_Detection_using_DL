@@ -6,6 +6,8 @@ from PIL import Image
 from tensorflow.keras.models import load_model
 from config import Config_elements
 from methords import detect_defect, process_img
+import os
+from pathlib import Path
 
 
 config_items = Config_elements()
@@ -54,6 +56,23 @@ if selected == "Fault Detection":
             predicted_index = np.argmax(prediction, axis=1)[0]
             st.write(predicted_index)
             st.success(f"the defect type is : {config_items.class_names[predicted_index]}")
+            csv_path = Path(config_items.ongoing_maintainance_path)
+            if not csv_path.exists():
+                csv_path.parent.mkdir(parents=True, exist_ok=True)
+                pd.DataFrame(columns=["Customer ID", "Name", "Fault", "Close Status"]).to_csv(csv_path, index=False)
+
+            data_entry = pd.read_csv(csv_path)
+
+            new_record = pd.DataFrame([{
+                "Customer ID": customer_id,
+                "Name": name,
+                "Fault": config_items.class_names[predicted_index],
+                "Close Status": False
+            }])
+
+            updated_df = pd.concat([data_entry, new_record], ignore_index=True)
+
+            updated_df.to_csv(csv_path, index=False)
         else:
             st.error("Please upload a solar panel image!")
 

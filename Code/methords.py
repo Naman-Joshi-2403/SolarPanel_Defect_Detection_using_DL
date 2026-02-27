@@ -3,7 +3,7 @@ from PIL import Image
 import numpy as np 
 from config import Config_elements
 
-config_items = Config_elements
+config_items = Config_elements()
 
 
 def process_img(img_file):

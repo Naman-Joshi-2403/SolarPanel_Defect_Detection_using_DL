@@ -8,5 +8,5 @@ class Config_elements():
     background_color_padding = (0,0,0)
     image_extension = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff')
     class_names = ["Dusty", "Electrical-damage", "Bird-drop", "Clean", "Snow-Covered", "Other"]
-    ongoing_maintainance_path = os.path.abspath(r'.\Static\DB_csv\ongoing_maintainance.csv')
+    ongoing_maintainance_path = os.path.join(base_user_dir, r'OneDrive\Desktop\Guvi_Projects\Solar Panel\Code\Static\DB_csv\ongoing_maintainance.csv')
     
