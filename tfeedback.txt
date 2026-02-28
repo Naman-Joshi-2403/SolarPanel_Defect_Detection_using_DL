@@ -1,0 +1,2 @@
+- basic concepts for the project.
+- small summary for each dashboard in end 
